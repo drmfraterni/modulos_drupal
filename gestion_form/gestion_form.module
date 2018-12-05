@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Cache\Cache;
+
+
+
+
+
+
+function gestion_form_theme($existing, $type, $theme, $path) {
+
+    return array(
+        'busqueda' => array(
+                                'variables' => array(
+                                    'titulo' => 'Título por defecto',
+                                    'descripcion' => 'descripción por defecto',
+                                    'formulario'   => NULL
+                                    ),
+                                'template' => 'busqueda'
+                            )
+    );
+}
+
+
+
+?>
