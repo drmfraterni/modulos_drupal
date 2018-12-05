@@ -1,0 +1,23 @@
+alterar_formulario.busqueda_entrada:
+  path: '/buscar-entrada'
+  defaults:
+    _title: 'Buscar Usuarios'
+    _form: '\Drupal\alterar_formulario\Form\BuscarUsuriosForm'
+  requirements:
+    _access: 'TRUE'
+
+alterar_formulario.david:
+  path: '/buscar-usuario'
+  defaults:
+    _title: 'Formulario David Robledo'
+    _form: '\Drupal\alterar_formulario\Form\MuprespaDavidForm'
+  requirements:
+    _access: 'TRUE'
+
+alterar_formulario.buscando:
+  path: '/admin/buscando'
+  defaults:
+    _title: 'Buscando Usuario'
+    _controller: '\Drupal\alterar_formulario\Controller\BusquedasController::busqueda_usuario'
+  requirements:
+    _access: 'TRUE'

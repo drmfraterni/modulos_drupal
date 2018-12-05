@@ -1,0 +1,5 @@
+name: Alterar Formulario
+description: Módulo de prácticas para modificar los formularios estandar.
+package: PERSONALIZADO
+type: module
+core: 8.x
