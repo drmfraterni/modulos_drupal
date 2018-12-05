@@ -1,0 +1,7 @@
+form_example.addform:
+  path: '/form_example/addform'
+  defaults:
+    _title: 'Add Form'
+    _form: '\Drupal\form_example\Form\addform'
+  requirements:
+    _permission: 'access content'
