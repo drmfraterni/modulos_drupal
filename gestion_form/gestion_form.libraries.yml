@@ -1,0 +1,9 @@
+gestion_form_libraries:
+  version: 1.x
+  css:
+    theme:
+      css/gestion_form.css: {}
+  js:
+    js/gestion_form.js: {}
+  dependencies:
+    - core/jquery

@@ -1,0 +1,7 @@
+gestion_form.content:
+  path: '/admin/gestion/buscando'
+  defaults:
+    _controller: '\Drupal\gestion_form\Controller\HelloController::content'
+    _title: 'Buscar Usuario'
+  requirements:
+    _permission: 'access content'
