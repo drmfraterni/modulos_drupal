@@ -1,0 +1,54 @@
+.page-title {
+ color: blue;
+
+}
+
+
+.zoom{
+  width: 500px;
+  height: 150px;
+
+        /* Aumentamos la anchura y altura durante 2 segundos */
+        transition: width 2s, height 2s, transform 2s;
+        -moz-transition: width 2s, height 2s, -moz-transform 2s;
+        -webkit-transition: width 2s, height 2s, -webkit-transform 2s;
+        -o-transition: width 2s, height 2s,-o-transform 2s;
+    }
+    .zoom:hover{
+        /* tranformamos el elemento al pasar el mouse por encima al doble de
+           su tamaño con scale(2). */
+        transform : scale(0.2);
+        -moz-transform : scale(0.2);      /* Firefox */
+        -webkit-transform : scale(0.2);   /* Chrome - Safari */
+        -o-transform : scale(0.2);        /* Opera */
+    }
+
+.mi_clase {
+    color: cadetblue;
+    border-color: yellow;
+    border-radius: inherit;
+    border-style: groove;
+
+}
+
+.fieldset-legend {
+  font-size: 250%;
+  font-style: oblique;
+
+
+}
+
+
+.mibotonprincipal{
+    border-color: #1e5c90;
+    background-color: #0071b8;
+
+    color: #fff;
+    text-shadow: 0 1px hsla(0,0%,0%,0.5);
+    font-weight: 70.;
+    -webkit-font-smoothing: antialiased;
+}
+.mimagen {
+    max-width: 45%;
+    height: auto;
+}

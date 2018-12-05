@@ -1,0 +1,32 @@
+page_test.content:
+  path: '/hello'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\HelloController::content'
+    _title: 'Hello World'
+  requirements:
+    _permission: 'access content'
+
+pages_test.pagina:
+  path: '/pagina'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\HelloController::pagina'
+    _title: 'Nueva Página'
+  requirements:
+    _permission: 'access content'
+
+
+pages_test.pagina1:
+  path: '/pagina/pagina1'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\HelloController::pagina1'
+    _title: 'Página 1'
+  requirements:
+    _permission: 'access content'
+
+pages_test.pagina_controlador:
+  path: '/pagina/pagina_controlador'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::paginadeotrocontrolador'
+    _title: 'Página desde controlador'
+  requirements:
+    _permission: 'access content'
