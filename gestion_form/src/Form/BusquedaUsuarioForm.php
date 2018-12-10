@@ -104,11 +104,25 @@ class BusquedaUsuarioForm extends FormBase {
     $ape=$form_state->getValue('apellido');
     $carnet=$form_state->getValue('carnet');
 
+    $ruta='?';
+    if (!empty($nombre)){
+      $ruta.='nom='.$nombre;
+    }
+    if (!empty($ape)){
+      $ruta.='&ape='.$ape;
+    }
+    if (!empty($carnet)){
+      $ruta.='&car='.$carnet;
+    }
+
     //$ruta='/admin/gestion/vista-all-usuarios';
 
-    global $base_url;
+    //drupal_set_message(t($nombre), 'status', FALSE)
 
-    $response = new RedirectResponse($base_url);
+    global $base_url;
+    $rutaCompleta=$base_url.'/admin/encontrado'.$ruta;
+
+    $response = new RedirectResponse($rutaCompleta);
     $response->send();
 
   }

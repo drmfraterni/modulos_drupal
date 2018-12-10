@@ -4,10 +4,6 @@ use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Cache\Cache;
 
 
-
-
-
-
 function gestion_form_theme($existing, $type, $theme, $path) {
 
     return array(
@@ -18,7 +14,16 @@ function gestion_form_theme($existing, $type, $theme, $path) {
                                     'formulario'   => NULL
                                     ),
                                 'template' => 'busqueda'
-                            )
+                            ),
+
+        'verRegistros' => array(
+                                  'variables' => array(
+                                    'titulo' => 'Título por defecto',
+                                    'descripcion' => 'descripción por defecto',
+                                    'usuarios'   => NULL
+                                    ),
+                                  'template' => 'verRegistros'
+                              )
     );
 }
 

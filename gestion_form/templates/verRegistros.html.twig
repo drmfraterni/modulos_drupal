@@ -1,0 +1,42 @@
+{# mi_modulo/templates/pagina-1.html.twig #}
+{% if usuarios %}
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Resultados de la BÚSQUEDA</div>
+            <div class="panel-body">
+                <p>Esta tabla muestra los usuarios de este mes agrupados por tipos de usuarios</p>
+            </div>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Apellido 1</th>
+                        <th>Apellido 2</th>
+                        <th>Carnet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set total = 0 %}
+                    {% for usu in usuarios %}
+                        {% if loop.last %}
+                            <tr>
+                                <td>{{ usu.get('field_nombre').value }}</td>
+                                <td class="text-right">{{ usu.get('field_apellido1').value }} </td>
+                                <td class="text-right">{{ usu.get('field_apellido2').value }} </td>
+                                <td class="text-right">{{ usu.get('field_cd_tarjeta').value }} </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>{{ usu.get('field_nombre').value }}</td>
+                                <td class="text-right">{{ usu.get('field_apellido1').value }} </td>
+                                <td class="text-right">{{ usu.get('field_apellido2').value }} </td>
+                                <td class="text-right">{{ usu.get('field_cd_tarjeta').value }} </td>
+                            </tr>
+                        {% endif%}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

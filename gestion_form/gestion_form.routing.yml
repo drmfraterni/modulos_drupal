@@ -5,3 +5,11 @@ gestion_form.content:
     _title: 'Buscar Usuario'
   requirements:
     _permission: 'access content'
+
+gestion_form.resultado:
+  path: '/admin/encontrado'
+  defaults:
+    _controller: '\Drupal\gestion_form\Controller\buscarUsuario::formderegistros'
+    _title: 'Buscar Usuario'
+  requirements:
+    _permission: 'access content'
