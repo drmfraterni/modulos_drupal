@@ -1,5 +1,5 @@
 name: Page Test
 description: Crearemos diferentes páginas de ejemplos.
-package: PERSONAL
+package: PERSONALIZADO
 type: module
 core: 8.x

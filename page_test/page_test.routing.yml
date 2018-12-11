@@ -30,3 +30,44 @@ pages_test.pagina_controlador:
     _title: 'Página desde controlador'
   requirements:
     _permission: 'access content'
+
+pages_test.pagina_id:
+  path: '/pagina/{idpagina}'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::verpagina'
+    _title: 'Página desde controlador'
+  requirements:
+    _permission: 'access content'
+
+pages_test.custom_arg:
+  path: '/pagina/custom'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::verpaginacustom'
+    custom_arg: parametrocustom
+    _title: 'Página con parametros custom'
+  requirements:
+    _permission: 'access content'
+
+pages_test.varias:
+  path: '/pagina/varias'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::varias'
+    _title: 'Página con varias informaciones'
+  requirements:
+    _permission: 'access content'
+
+pages_test.form:
+  path: '/pagina/form'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::form'
+    _title: 'Página con varias informaciones y un formulario'
+  requirements:
+    _permission: 'access content'
+
+pages_test.template:
+  path: '/pagina/template'
+  defaults:
+    _controller: '\Drupal\page_test\Controller\pagina::template'
+    _title: 'Página creada con Plantilla customizada'
+  requirements:
+    _permission: 'access content'
