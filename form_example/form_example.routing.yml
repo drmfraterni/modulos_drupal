@@ -1,7 +1,31 @@
 form_example.addform:
   path: '/form_example/addform'
   defaults:
-    _title: 'Add Form'
+    _title: 'Ejemplo de Formulario'
     _form: '\Drupal\form_example\Form\addform'
+  requirements:
+    _permission: 'access content'
+
+form_example.mostrartodo:
+  path: '/form_example'
+  defaults:
+    _controller: '\Drupal\form_example\Controller\form_exampleController::mostrartodo'
+    _title: 'Página que nos muestra Todo'
+  requirements:
+    _permission: 'access content'
+
+form_example.editform:
+  path: '/form_example/{arg}/editar'
+  defaults:
+    _title: 'Modificar datos'
+    _form: '\Drupal\form_example\Form\editform'
+  requirements:
+    _permission: 'access content'
+
+form_example.deleteform:
+  path: '/form_example/{arg}/eliminar'
+  defaults:
+    _title: 'Eliminar los datos'
+    _form: '\Drupal\form_example\Form\deleteform'
   requirements:
     _permission: 'access content'

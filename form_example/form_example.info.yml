@@ -1,5 +1,5 @@
-name: Form Example
-description: Crearemos formularios de ejemplos
-package: PERSONAL
+name: Formulario de Ejemplo
+description: Módulo de prácticas para crear formularios.
+package: PERSONALIZADO
 type: module
 core: 8.x

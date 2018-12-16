@@ -9,28 +9,40 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Implements an example form.
  */
-class addform extends FormBase {
+class editform extends FormBase {
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'form_example_addform';
+    return 'form_example_editform';
+  }
+
+  public function listarunregistro($arg){
+
+    $connection = \Drupal::database();
+    $query = $connection->query("SELECT * FROM {datospersonales} WHERE id = :id", [
+  ':id' => $arg,
+]);
+    $result = $query->fetchAssoc();
+
+    return $result;
+
+
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-
+  public function buildForm(array $form, FormStateInterface $form_state, $arg=null) {
+    ksm($this->listarunregistro($arg));
     $form['elemento_imagen'] = array(
 
       '#markup' =>'<img class="mimagen" src="https://comoobtenercredito.com/wp-content/uploads/2018/03/datos-personales.png">',
-
-
-
     );
 
+    $registro=array();
+    $registro=$this->listarunregistro($arg);
     $form['#attached']['library'][] = 'form_example/form_example_libraries';
 
     $form['datos_personales'] = array(
@@ -44,7 +56,7 @@ class addform extends FormBase {
     $form['datos_personales']['nombre'] = array(
       '#type' => 'textfield',
       '#title' =>$this-> t('Introduzca su nombre'),
-      //'#default_value' => $node->title,
+      '#default_value' => $registro['nombre'],
       '#size' => 60,
       '#maxlength' => 128,
       '#required' => TRUE,
@@ -52,7 +64,7 @@ class addform extends FormBase {
     $form['datos_personales']['apellido'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Introduzca su Apellido'),
-      //'#default_value' => $node->title,
+      '#default_value' => $registro['apellido'],
       '#size' => 60,
       '#maxlength' => 128,
       '#required' => FALSE,
@@ -60,6 +72,7 @@ class addform extends FormBase {
     $form['datos_personales']['email'] = array(
       '#type' => 'email',
       '#title' => $this->t('Email'),
+      '#default_value' => $registro['email'],
     );
     $form['datos_institucionales'] = array(
       '#type' => 'details',
@@ -69,10 +82,12 @@ class addform extends FormBase {
     $form['datos_institucionales']['telefono'] = [
       '#type' => 'tel',
       '#title' => $this->t('Introduzca su teléfono'),
+      '#default_value' => $registro['telefono'],
     ];
     $form['datos_institucionales']['fecha_contratacion'] = array(
       '#type' => 'date',
       '#title' => $this ->t('Fecha de contratación'),
+      '#default_value' => $registro['fecha'],
 
     );
 

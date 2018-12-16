@@ -1,0 +1,108 @@
+<?php
+
+
+function form_example_schema() {
+
+  $schema['datospersonales'] = array(
+    // Example (partial) specification for table "node".
+    'description' => 'The base table for datos personales.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for a node.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nombre' => array(
+        'description' => 'nombre de la persona que vamos a introducir.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'apellido' => array(
+        'description' => 'apellidos del usuario.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'email' => array(
+        'description' => 'apellidos del usuario.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'telefono' => array(
+        'description' => 'apellidos del usuario.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'fecha' => array(
+        'description' => 'apellidos del usuario.',
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+
+    'primary key' => array('id'),
+  );
+  return $schema;
+}
+
+  function form_example_install(){
+
+    $values = [
+      [
+        'nombre' => 'David',
+        'apellido' =>'Robledo',
+        'email' => 'aaaa@gmail.com',
+        'telefono' => '916959045',
+        'fecha' => '',
+      ],
+      [
+        'nombre' => 'Raúl',
+        'apellido' =>'Rodriguez',
+        'email' => 'bbbb@gmail.com',
+        'telefono' => '916959050',
+        'fecha' => '',
+      ],
+      [
+        'nombre' => 'Virginia',
+        'apellido' =>'Robledo',
+        'email' => 'virginia@gmail.com',
+        'telefono' => '916989045',
+        'fecha' => '',
+      ],
+    ];
+    $connection = \Drupal::database(); // instanciamos la conexión como un objeto
+    $query = $connection->insert('datospersonales')->fields(['nombre', 'apellido', 'email', 'telefono', 'fecha']);
+
+    foreach ($values as $record) {
+      $query->values($record);
+    }
+
+    $query->execute();
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+ ?>

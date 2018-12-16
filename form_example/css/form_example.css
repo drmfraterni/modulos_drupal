@@ -45,6 +45,10 @@
 
     color: #fff;
     text-shadow: 0 1px hsla(0,0%,0%,0.5);
-    font-weight: 700;
+    font-weight: 70.;
     -webkit-font-smoothing: antialiased;
+}
+.mimagen {
+    max-width: 45%;
+    height: auto;
 }
