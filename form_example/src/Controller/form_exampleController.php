@@ -56,8 +56,7 @@ class form_exampleController extends ControllerBase {
       '#empty' => $this->t('There are no nodes to display. Please <a href=":url">create a node</a>.', [':url' => Url::fromRoute('node.add', ['node_type' => 'page'])->toString(),
          ]),
        ];
-       // Add our pager element so the user can choose which pagination to see.
-       // This will add a '?page=1' fragment to the links to subsequent pages.
+    // introducimos el paginador dentro del contenido.
     $contenido['pager'] = [
        '#type' => 'pager',
        '#weight' => 10,
