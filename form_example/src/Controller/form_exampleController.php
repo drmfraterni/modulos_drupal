@@ -35,9 +35,7 @@ class form_exampleController extends ControllerBase {
     $project_link = Link::fromTextAndUrl(t('Crear Nuevo Registro'), $url);
     $project_link = $project_link->toRenderable();
     // If you need some attributes.
-    $project_link['#attributes'] = array('class' => array('button',
-
-    'button--primary', 'button--small'));
+    $project_link['#attributes'] = array('class' => array('button', 'button--primary', 'button--small'));
 
 
 
