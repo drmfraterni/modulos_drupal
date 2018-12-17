@@ -58,9 +58,9 @@ class form_exampleController extends ControllerBase {
        ];
        // Add our pager element so the user can choose which pagination to see.
        // This will add a '?page=1' fragment to the links to subsequent pages.
-       $build['pager'] = [
-         '#type' => 'pager',
-         '#weight' => 10,
+    $contenido['pager'] = [
+       '#type' => 'pager',
+       '#weight' => 10,
        ];
 
 
