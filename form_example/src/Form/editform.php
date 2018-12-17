@@ -115,6 +115,10 @@ class editform extends FormBase {
 
     );
 
+    $form['idregistro'] = array(
+      '#type' => 'hidden',
+      '#value' => $arg,
+    );
 
 
     return $form;
@@ -152,21 +156,26 @@ class editform extends FormBase {
 
     $campos=array(
       'nombre'=>$form_state->getValue('nombre'),
-      'apellido'=>$form_state->getValue('telefono'),
+      'apellido'=>$form_state->getValue('apellido'),
       'email'=>$form_state->getValue('email'),
       'telefono'=>$form_state->getValue('telefono'),
       'fecha'=>$form_state->getValue('fecha_contratacion'),
     );
     //ksm($campos);
-
-    // INSERTAMOS LOS DATOS EN LA BBDD.
+    $id=$form_state->getValue('idregistro');
+    // MODIFICAMOS LOS DATOS EN LA BBDD.
+    // https://www.drupal.org/docs/8/api/database-api/update-queries
 
     $connection = \Drupal::database();
 
-    $result = $connection->insert('datospersonales')
+
+
+    $connection->update('datospersonales')
     ->fields($campos)
+    ->condition('id', $id)
     ->execute();
-    drupal_set_message("Datos guardados correctamente. Se ha creado el registro". $result);
+
+    drupal_set_message("Datos guardados correctamente. Se ha modificado el registro".$id);
 
     // la dirección lo toma del routing de form_example.
 

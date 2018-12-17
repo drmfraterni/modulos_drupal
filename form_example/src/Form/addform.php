@@ -137,7 +137,7 @@ class addform extends FormBase {
 
     $campos=array(
       'nombre'=>$form_state->getValue('nombre'),
-      'apellido'=>$form_state->getValue('telefono'),
+      'apellido'=>$form_state->getValue('apellido'),
       'email'=>$form_state->getValue('email'),
       'telefono'=>$form_state->getValue('telefono'),
       'fecha'=>$form_state->getValue('fecha_contratacion'),

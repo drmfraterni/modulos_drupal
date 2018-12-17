@@ -5,6 +5,8 @@ namespace Drupal\form_example\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
+use Drupal\form_example\Form\editform;
+
 
 /**
  * Defines HelloController class.
@@ -17,6 +19,24 @@ class form_exampleController extends ControllerBase {
    * @return array
    *   Return markup array.
    */
+
+  public function mostrarunregisro($arg){
+
+    $contenido=array();
+
+    $contenido['linea1']=array (
+      '#markup' =>'<strong>En esta información es confidencial. Y la variable que recibo es '.$arg.'</strong></br>',
+    );
+
+    $registro=array();
+
+    $registro=editform::listarunregistro($arg);
+
+    ksm($registro);
+
+    return $contenido;
+
+  }
 
   public function mostrartodo() {
 
@@ -35,7 +55,9 @@ class form_exampleController extends ControllerBase {
     $project_link = Link::fromTextAndUrl(t('Crear Nuevo Registro'), $url);
     $project_link = $project_link->toRenderable();
     // If you need some attributes.
-    $project_link['#attributes'] = array('class' => array('button', 'button--primary', 'button--small'));
+    $project_link['#attributes'] = array('class' => array('button',
+
+    'button--primary', 'button--small'));
 
 
 
@@ -54,11 +76,12 @@ class form_exampleController extends ControllerBase {
       '#empty' => $this->t('There are no nodes to display. Please <a href=":url">create a node</a>.', [':url' => Url::fromRoute('node.add', ['node_type' => 'page'])->toString(),
          ]),
        ];
-    // introducimos el paginador dentro del contenido.
+       // Add our pager element so the user can choose which pagination to see.
+       // This will add a '?page=1' fragment to the links to subsequent pages.
     $contenido['pager'] = [
-       '#type' => 'pager',
-       '#weight' => 10,
-       ];
+     '#type' => 'pager',
+     '#weight' => 10,
+     ];
 
 
     $contenido['linea3']=array (
