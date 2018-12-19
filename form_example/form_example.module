@@ -19,5 +19,12 @@ function form_example_cancelar () {
   return;
 
 }
+function form_example_theme($existing, $type, $theme, $path) {
+  return [
+    'form_example_template' => [
+      'variables' => ['test_var' => NULL],
+    ],
+  ];
+}
 
 ?>

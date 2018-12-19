@@ -25,14 +25,29 @@ class form_exampleController extends ControllerBase {
     $contenido=array();
 
     $contenido['linea1']=array (
-      '#markup' =>'<strong>En esta información es confidencial. Y la variable que recibo es '.$arg.'</strong></br>',
+      '#markup' =>'<strong>En esta información es confidencial.</strong></br></br></br>',
     );
 
     $registro=array();
 
     $registro=editform::listarunregistro($arg);
 
+    global $base_url;
+
+    $url = Url::fromUri($base_url.'/form_example/'.$arg.'/editar');
+    $editar_link = \Drupal::l(t('Editar'), $url);
+    $row['editar']=$editar_link;
+
+    $contenido['linea2']=array (
+      '#markup' =>$editar_link.'</br></br></br>',
+    );
+
     ksm($registro);
+
+    $contenido[]=[
+      '#theme' => 'form_example_template',
+      '#test_var' =>$registro,
+    ];
 
     return $contenido;
 
@@ -45,6 +60,8 @@ class form_exampleController extends ControllerBase {
     $contenido['linea1']=array (
       '#markup' =>'<strong>En esta sección se administrará los datos personales de los usuarios</strong></br>',
     );
+
+
 
     //esta construcción nos sirve para crear un botón que nos lleva a una dirección de url
     //Lo que hace es que coge la referencia del routing y por lo tanto da igual que varíe la url que tiene.
