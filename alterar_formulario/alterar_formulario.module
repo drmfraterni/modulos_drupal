@@ -22,10 +22,10 @@ use Drupal\Core\Cache\Cache;
 
 // code to get nid
 
-    if ($form_id=='node_bz_usuarios_form'){
+   if ($form_id=='node_bz_usuarios_form'){
       dpm( $form_id);
       //kint( $form_id);
-      ksm($form);
+
       drupal_set_message('====> nid: '.$node);
       drupal_set_message('DÍA ÚLTIMO DEL MES ====>'.$dia);
       $form['body']['widget']['0']['#placeholder']='Aquí podemos rellenar las incidencias';
@@ -38,19 +38,39 @@ use Drupal\Core\Cache\Cache;
 
     }
     if ($form_id=='node_bz_presencia_form'){
-      drupal_set_message('vamos para allá');
+      //dpm( $form_id);
+      //ksm($form);
+      $id = \Drupal::request()->query->get('id');
+
+      //El id=1 es para la ENTRADA DE DIA de una persona que no esté dado de aggregator_element_data
+
+      if ($id==1){
+        $form['title']['widget']['0']['value']['#default_value']=t($annio.''.$mes.''.$dia.' - ENTRADA DE DIA');
+
+      }else{
+        $usu = Node::load($id);
+        dpm($usu->title->value);
+        //$nombre=$usu->title->value;
+        $nombre=$nodo->get("title")->value;
+        $form['title']['widget']['0']['value']['#default_value']=t($annio.''.$mes.''.$dia.' - '.$nombre);
+        //$form['field_idusupre']['widget']['0']['value']['#default_value']=$nombre;
+        $form['field_idusupre']['widget']['0']['target_id']['#value']=t($nombre);
+
+      }
+
+
+      hide($form['body']); // Ocultamos el campo body
 
 
 
-    }
+      //drupal_set_message('El id es: '.$usuarios);
 
 
 
-
+    }l
 
 
   }
-
   function alterar_formulario_theme($existing, $type, $theme, $path) {
 
       return array(
