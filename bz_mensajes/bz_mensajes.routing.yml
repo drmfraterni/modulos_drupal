@@ -1,0 +1,53 @@
+# This routing.yml file makes both the fapi example description page and the
+# included sample forms available at specific URL's on your site. A route
+# maps a URL path to a controller. For page controllers it defines the
+# function or method that will be called when the page is accessed.  For form
+# controllers the content is determined by the buildForm method defined by the
+# form controller implementation.
+
+# Access to these paths is restricted to users with the permission
+# 'access content'. This is notated as _permission: 'access content'.
+
+# Menu items corresponding to these URLs are defined separately in the
+# bz_mensajes.links.menu.yml file.
+
+bz_mensajes.multistep_form:
+  path: '/contacto/multistep-form'
+  defaults:
+    _form: '\Drupal\bz_mensajes\Form\MultistepForm'
+    _title: 'Multistep form'
+  requirements:
+    _permission: 'access content'
+
+bz_mensajes.simple_form:
+  path: '/examples/form-api-example/simple-form'
+  defaults:
+    _form:  '\Drupal\bz_mensajes\Form\SimpleForm'
+    _title: 'Simple form'
+  requirements:
+    _permission: 'access content'
+
+bz_mensajes.modal_form:
+  path: '/examples/form-api-example/modal-form/{nojs}'
+  defaults:
+    _form:  '\Drupal\bz_mensajes\Form\ModalForm'
+    _title: 'Modal form'
+    nojs: ajax
+  requirements:
+    _permission: 'access content'
+
+bz_mensajes.ajax_color_demo:
+  path: '/examples/form-api-example/ajax-color-demo'
+  defaults:
+    _form:  '\Drupal\bz_mensajes\Form\AjaxColorForm'
+    _title: 'AJAX color form'
+  requirements:
+    _permission: 'access content'
+
+bz_mensajes.ajax_addmore:
+  path: '/examples/form-api-example/ajax-addmore'
+  defaults:
+    _form:  '\Drupal\bz_mensajes\Form\AjaxAddMore'
+    _title: 'Add-more button'
+  requirements:
+    _permission: 'access content'
