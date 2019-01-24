@@ -170,6 +170,7 @@ class formularioContacto extends FormBase {
 
     if ($this->step==2){
       drupal_set_message('ENTRAMOS AQUÍ');
+      
       $node = Node::create([
         'type' => 'bz_mensaje',
         'ms_nombre' => $this->campoPasos['ms_nombre'],
@@ -177,6 +178,8 @@ class formularioContacto extends FormBase {
         'body' => $this->campoPasos['mensaje'],
 
       ]);
+      
+      $node->Save();
 
     }
 
