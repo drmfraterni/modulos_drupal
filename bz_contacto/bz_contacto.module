@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains multistep_form.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function multistep_form_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the multistep_form module.
+    case 'help.page.multistep_form':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('A simple example to build a multistep form.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

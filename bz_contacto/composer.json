@@ -1,0 +1,14 @@
+{
+  "name": "drupal/multistep_form",
+  "type": "drupal-module",
+  "description": "A simple example to build a multistep form.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/multistep_form",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/multistep_form",
+    "source": "http://cgit.drupalcode.org/multistep_form"
+  },
+  "require": { }
+}

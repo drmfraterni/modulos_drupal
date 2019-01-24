@@ -1,0 +1,8 @@
+
+bz_contacto.multi_step_sample:
+  path: '/formulario-contacto'
+  defaults:
+    _form: '\Drupal\bz_contacto\Form\formularioContacto'
+    _title: 'Formulario de contacto'
+  requirements:
+    _access: 'TRUE'
