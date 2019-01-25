@@ -87,11 +87,16 @@ class formularioContacto extends FormBase {
           '#description' => $this->t('Introduce el correo electrónico.'),
           '#required' => TRUE,
       ];
+	  
+
       $form['entity_id'] = [
           '#type' => 'hidden',
           '#value' => $entity_id,
       ];
-
+	  
+	  
+	
+	return $form;
 
     }
 
@@ -141,6 +146,7 @@ class formularioContacto extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     // con esto recogemos los datos del primer formulario y del segundo.
+
     $this->campoPasos = $this->campoPasos + $form_state->getValues();
     // Display result.
     if($this->step < 2 ) {
@@ -149,8 +155,11 @@ class formularioContacto extends FormBase {
       $this->step++;
       drupal_set_message('Step 1 Completado!!');
     }else{
+        $this->step++;
         //$this->campoPasos=$form_state->getValues();
-        drupal_set_message('Step 2 Completado!!');
+        drupal_set_message('Estimada/o: '.$this->campoPasos['ms_nombre']. ' ' .$this->campoPasos['ms_apellidos']);
+        drupal_set_message('Ha enviado el correo de forma correcta.');
+        drupal_set_message('En breve nos pondremos en contacto con usted');
         /*foreach ($form_state->getValues() as $key => $value) {
           drupal_set_message($key . ': ' . $value);
         }*/
@@ -168,18 +177,22 @@ class formularioContacto extends FormBase {
     }*/
     /*drupal_set_message('REGISTRO: '.$this->campoPasos['ms_nombre']);*/
 
-    if ($this->step==2){
-      drupal_set_message('ENTRAMOS AQUÍ');
-      
+    if ($this->step==3 ){
+
+      $fechaHoy=date('Ymd');
+
       $node = Node::create([
         'type' => 'bz_mensaje',
-        'ms_nombre' => $this->campoPasos['ms_nombre'],
-        'ms_correo' => $this->campoPasos['ms_correo'],
-        'body' => $this->campoPasos['mensaje'],
-
-      ]);
-      
-      $node->Save();
+        'title' => $fechaHoy.' - MM - '.$this->campoPasos['ms_nombre']. ' ' .$this->campoPasos['ms_apellidos'],
+        'field_ms_nombre'=>$this->campoPasos['ms_nombre'],
+        'field_ms_correo'=> $this->campoPasos['ms_correo'],
+        'body' => [
+        'value' => $this->campoPasos['mensaje'],
+        'format' => 'basic_html',
+          ],
+        'uid' => 0, //el codigo del usuario es autonumérico.
+        ]);
+        $node->save();
 
     }
 
