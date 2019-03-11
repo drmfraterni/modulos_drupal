@@ -6,19 +6,66 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 
 /**
  * Implements hook_help().
  */
-function multistep_form_help($route_name, RouteMatchInterface $route_match) {
-  switch ($route_name) {
-    // Main module help for the multistep_form module.
-    case 'help.page.multistep_form':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('A simple example to build a multistep form.') . '</p>';
-      return $output;
+function bz_contacto_theme($existing, $type, $theme, $path) {
 
-    default:
+      return array(
+          'temaFormulario' => array(
+                                  'variables' => array(
+                                      'titulo' => 'Título por defecto',
+                                      'descripcion' => 'DESCRIPCIÓN por defecto',
+                                      'formulario'   => NULL
+                                      ),
+                                  'template' => 'temaFormulario'
+                              )
+      );
+  }
+
+
+/*   ENVIO DE CORREO ELECTRÓNICO DEL FORMULARIO DE CONTACTO   */
+
+
+/**
+* hook_form_alter()
+*/
+
+function bz_contacto_mail($key, &$message, $params) {
+  // Get language code, which provides current user language.
+  /*$options = array(
+    'langcode' => $message['langcode'],
+  );*/
+
+  $message['body'] = [];
+  $message['subject'] = [];
+  $message['headers'] = array(
+    'content-type' => 'text/html',
+    'charset' => 'UTF-8',
+    'format' => 'flowed',
+    'delsp' => 'yes',
+    'from' => \Drupal::config('system.site')->get('mail')
+  );
+
+
+
+  // configuring the message
+  switch ($key) {
+    case 'contact_message':
+    $message['headers']['Bcc'] = $params['Bcc']; // BCC  robledomorante
+    $message['subject'] = $params['titulo'];
+    //$message['body'][] = '<html><body>' . $params['mensaje'] . '</body></html>';
+    $message['body'][] = SafeMarkup::checkPlain($params['mensaje']);
+	  break;
   }
 }
+
+/**
+ * Implements hook_mail_alter().
+ *
+ * Not yet implemented, this function need to call getGeocode() method in order to alter the message.
+ */
