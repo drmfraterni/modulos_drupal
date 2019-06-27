@@ -1,0 +1,31 @@
+<?php
+
+
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+function migrar_db_cancelar () {
+
+  drupal_set_message('Acción Cancelada!!!','error');
+
+  global $base_url;
+
+  //dpm($base_url);
+
+  $response = new RedirectResponse($base_url);
+  $response->send();
+  return;
+
+}
+
+function migrar_db_theme($existing, $type, $theme, $path) {
+  return array(
+      'migrardb' => array(
+                              'variables' => array(
+                                  'titulo' => 'Título por defecto',
+                                  'descripcion' => 'descripción por defecto',
+                                  'registros'   => NULL
+                                  ),
+                              'template' => 'migrardb'
+                          )
+  );
+}

@@ -1,0 +1,39 @@
+migrar_db.addform:
+  path: '/migrar_db/addform'
+  defaults:
+    _title: 'Add Form'
+    _form: '\Drupal\migrar_db\Form\addform'
+  requirements:
+    _permission: 'access content'
+
+migrar_db.listarusuarios:
+  path: '/listarusuarios'
+  defaults:
+    _title: 'comprobar conexión base de datos'
+    _controller: '\Drupal\migrar_db\Controller\migrar_dbController::listarUsuarios'
+  requirements:
+    _permission: 'access content'
+
+migrar_db.listarproductos:
+  path: '/listarproductos'
+  defaults:
+    _title: 'comprobar conexión base de datos para Productos'
+    _controller: '\Drupal\migrar_db\Controller\migrar_dbController::listarProductos'
+  requirements:
+    _permission: 'access content'
+
+migrar_db.listarcompras:
+  path: '/listarcompras'
+  defaults:
+    _title: 'comprobar conexión base de datos para Productos'
+    _controller: '\Drupal\migrar_db\Controller\migrar_dbController::listarCompras'
+  requirements:
+    _permission: 'access content'
+
+migrar_db.listarvariosnodos:
+  path: '/listar/{dato}'
+  defaults:
+    _controller: '\Drupal\migrar_db\Controller\migrar_dbController::listarNodos'
+    _title: 'Página que nos muestra un registro'
+  requirements:
+    _permission: 'access content'
