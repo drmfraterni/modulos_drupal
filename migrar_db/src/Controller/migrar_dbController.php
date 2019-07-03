@@ -48,7 +48,9 @@ class migrar_dbController extends ControllerBase {
    public function listarCompras (){
 
     $registros = array ();
-   	$registros = bdCompras();
+   	//$registros = bdCompras();
+    $registros = \Drupal::service('migrardb.migrarall')->bdCompras();
+
     $cantidadReg = count($registros['idCompra']);
 
     for ($i=0; $i < $cantidadReg; $i++){
@@ -117,7 +119,8 @@ class migrar_dbController extends ControllerBase {
    public function listarUsuarios (){
 
    	$registros = array ();
-   	$registros = bdUsuarios();
+   	//$registros = bdUsuarios();
+    $registros = \Drupal::service('migrardb.migrarall')->bdUsuarios();
     $cantidadReg = count($registros['idUsuario']);
 
     var_dump($cantidadReg);
@@ -165,7 +168,8 @@ class migrar_dbController extends ControllerBase {
    public function listarProductos (){
 
      $registros = array ();
-     $registros = bdProductos();
+     //$registros = bdProductos();
+     $registros = \Drupal::service('migrardb.migrarall')->bdProductos();
      $cantidadReg = count($registros['dsProducto']);
 
      for ($i=0; $i < $cantidadReg; $i++){

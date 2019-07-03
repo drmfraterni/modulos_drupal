@@ -1,0 +1,4 @@
+services:
+  # Defines a service to send and plan mails.
+  migrardb.migrarall:
+    class: Drupal\migrar_db\MigrardbService
