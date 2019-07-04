@@ -37,3 +37,11 @@ migrar_db.listarvariosnodos:
     _title: 'Página que nos muestra un registro'
   requirements:
     _permission: 'access content'
+
+migrar_db.borrado:
+  path: '/borradoTabla/{entidad}'
+  defaults:
+    _controller: '\Drupal\migrar_db\Controller\migrar_dbController::borrarEntidad'
+    _title: 'Borrado de Registros'
+  requirements:
+    _permission: 'access content'

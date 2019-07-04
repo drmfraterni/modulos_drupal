@@ -141,7 +141,34 @@ class MigrardbService {
 
        return $codigo;
 
-     }
+    }
+
+  // FUNCIÓN DE BORRADO DE LAS TABLAS BBDD
+
+  function borrado($tipo){
+
+      $types = array($tipo);
+
+      $nids_query = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('n.type', $types, 'IN')
+      ->range(0, 1500)
+      ->execute();
+
+      $nids = $nids_query->fetchCol();
+
+      entity_delete_multiple('node', $nids);
+
+
+      $nodes = \Drupal::entityTypeManager()
+          ->getStorage('node')
+          ->loadByProperties(array('type' => $tipo));
+
+      return $nodes;
+
+
+  }
+
 
 
 }
