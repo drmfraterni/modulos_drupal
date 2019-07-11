@@ -122,8 +122,6 @@ class migrar_dbController extends ControllerBase {
     $registros = \Drupal::service('migrardb.migrarall')->bdUsuarios();
     $cantidadReg = count($registros['idUsuario']);
 
-    var_dump($cantidadReg);
-    die();
 
     for ($i=0; $i < $cantidadReg; $i++){
 
@@ -151,6 +149,8 @@ class migrar_dbController extends ControllerBase {
     }
       drupal_set_message(t('Terminado'), 'status', FALSE);
     //var_dump($usuarios);
+    var_dump($registros);
+    die();
 
     return [
         '#theme' => 'migrardb',
@@ -199,22 +199,23 @@ class migrar_dbController extends ControllerBase {
      ];
 
    }
+   public function borrarEntidad ($entidad) {
 
+
+     $nodes = \Drupal::service('migrardb.migrarall')->borrado($entidad);
+
+     // ELIMINA LOS REGISTROS DE LA ENTIDAD SELECCIONADO
+     foreach ($nodes as $node) {
+       $node->delete();
+     }
+
+     $numEliminados = count($nodes);
+
+     drupal_set_message(t('Registros eliminados '.$numEliminados), 'status', FALSE);
+   }
 
   }
 
-  public function borrarEntidad ($entidad) {
 
-    $nodes = \Drupal::service('migrardb.migrarall')->borrado($entidad);
-
-    // ELIMINA LOS REGISTROS DE LA ENTIDAD SELECCIONADO
-    foreach ($nodes as $node) {
-      $node->delete();
-    }
-
-    $numEliminados = count($nodes);
-
-    drupal_set_message(t('Registros eliminados '.$numEliminados), 'status', FALSE);
-  }
 
 ?>

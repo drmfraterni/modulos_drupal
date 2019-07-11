@@ -31,7 +31,6 @@ class MigrardbService {
    function bdUsuarios(){
        // función para conectar con una base de datos externa al drupal 8
        \Drupal\Core\Database\Database::setActiveConnection('external');
-
        $con = \Drupal\Core\Database\Database::getConnection();
 
        $result = $con->query("SELECT idUsuario, dsNombre, dsApellido1, dsApellido2,
@@ -59,7 +58,6 @@ class MigrardbService {
    function bdProductos(){
        // función para conectar con una base de datos externa al drupal 8
        \Drupal\Core\Database\Database::setActiveConnection('external');
-
        $con = \Drupal\Core\Database\Database::getConnection();
 
        $result = $con->query("SELECT idProducto, dsProducto, nmPrecio, itPeriodicidad FROM bza_productos");
@@ -83,7 +81,6 @@ class MigrardbService {
    function bdCompras(){
        // función para conectar con una base de datos externa al drupal 8
        \Drupal\Core\Database\Database::setActiveConnection('external');
-
        $con = \Drupal\Core\Database\Database::getConnection();
 
        $result = $con->query("SELECT idCompra, idUsuario, idProducto, dtFechaInicio, dtFechaFin, nmPrecio FROM bza_compras");
