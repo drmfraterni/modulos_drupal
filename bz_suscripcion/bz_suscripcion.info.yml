@@ -1,0 +1,6 @@
+name: Boulder Zone suscripciones
+description: Módulo de suscripciones. Consentimientos. Inspcripciones.
+package: BOULDER ZONE
+type: module
+core: 8.x
+configure: bz_suscripcion.admin_settings

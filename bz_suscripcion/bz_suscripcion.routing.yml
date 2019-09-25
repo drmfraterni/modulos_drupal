@@ -1,0 +1,14 @@
+bz_suscripcion.consentimiento:
+  path: '/formulario/consentimiento'
+  defaults:
+    _title: 'Consentimiento '
+    _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::consentimiento'
+  requirements:
+    _access: 'TRUE'
+bz_suscripcion.admin_settings:
+  path: '/admin/config/services/consentimiento'
+  defaults:
+    _title: 'Configuración del módulo consentimiento Informado'
+    _form: '\Drupal\bz_suscripcion\Form\BzConsentimientoConfigurationForm'
+  requirements:
+    _permission: 'administer site configuration'
