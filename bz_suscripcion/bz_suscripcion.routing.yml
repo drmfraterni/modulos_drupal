@@ -5,6 +5,7 @@ bz_suscripcion.consentimiento:
     _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::consentimiento'
   requirements:
     _access: 'TRUE'
+
 bz_suscripcion.admin_settings:
   path: '/admin/config/services/consentimiento'
   defaults:
@@ -12,3 +13,19 @@ bz_suscripcion.admin_settings:
     _form: '\Drupal\bz_suscripcion\Form\BzConsentimientoConfigurationForm'
   requirements:
     _permission: 'administer site configuration'
+
+bz_suscripcion.firma:
+  path: '/consentimiento/firmar/{token}'
+  defaults:
+    _title: 'Firmado '
+    _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::firmado'
+  requirements:
+    _access: 'TRUE'
+
+bz_suscripcion.enviocorreo:
+  path: '/consentimiento/enviocorreo/{nombre}/{token}'
+  defaults:
+    _title: 'Firmado '
+    _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::enviocorreo'
+  requirements:
+    _access: 'TRUE'

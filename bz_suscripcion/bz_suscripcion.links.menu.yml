@@ -1,4 +1,4 @@
-rdls_subscriptions.admin_settings:
+bz_suscripcion.admin_settings:
   title: 'BZ CONSENTIMIENTO'
   parent: system.admin_config_services
   route_name: bz_suscripcion.admin_settings

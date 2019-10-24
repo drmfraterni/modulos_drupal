@@ -22,8 +22,9 @@ use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Url;
 use Drupal\Core\Link;
 use Drupal\taxonomy\Entity\Term;
-use Dompdf\Autoloader;
 use Dompdf\Dompdf;
+use Dompdf\Autoloader;
+use Dompdf\Options;
 
 
 
@@ -35,6 +36,8 @@ class ConsentimientoAutorizado extends FormBase {
   protected $token;
 
   protected $ficha = array();
+  
+  protected $todoCampos = array ();
 
   protected $textoHtmlConsent;
 
@@ -152,6 +155,19 @@ class ConsentimientoAutorizado extends FormBase {
  */
   public function validateForm(array &$form, FormStateInterface $form_state) {
 
+    // COMPROBAR SI EXISTE ESE CORREO //
+    $validarCorreo = FALSE;
+    $nid = \Drupal::entityQuery('node')
+    ->condition('type', 'bz_consentimiento')
+    ->condition('field_email_con', $form_state->getValue('email'), '=')
+    ->execute();
+    
+    
+    // si existe el correo nos da TRUE y por lo tanto no nos lo deja introducir.
+    empty($nid) ? $validarCorreo = FALSE : $validarCorreo = TRUE;
+    //var_dump($nid);
+    //var_dump($validarCorreo);
+   
 
     $control=FALSE;
     $patron_texto = '/^[a-zA-ZáéíóúÁÉÍÓÚäëïöüÄËÏÖÜàèìòùÀÈÌÒÙ\s]+$/';
@@ -177,17 +193,11 @@ class ConsentimientoAutorizado extends FormBase {
       $control = TRUE;
     }
 
-    /*if (empty($form_state->getValue('apellido2'))) {
-      $control=TRUE;
-    }else if (!preg_match($patron_texto, $form_state->getValue('apellido2'))&&($control=FALSE)){
-      $form_state->setErrorByName('apellido2', $this->t('No puede contener números'));
-    }else{
-      $control=TRUE;
-    }*/
-
     //validar campo correo
     if (empty($form_state->getValue('email'))&&($control==FALSE)) {
       $control=FALSE;
+    }else if ($validarCorreo == TRUE) {
+      $form_state->setErrorByName('email', t('Este correo está asociado a un consentimiento informado por lo que debe existir la solicitud.'));
     }else if (!valid_email_address($form_state->getValue('email')) && ($control = FALSE )){
       $form_state->setErrorByName('email', t('That is not a valid e-mail address.'));
     }else{
@@ -211,20 +221,14 @@ class ConsentimientoAutorizado extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
-    $this->envioconf = TRUE;
-
-    //foreach ($form_state->getValues() as $key => $value) {
-    //    drupal_set_message($key . ': ' . $value);
-    //}
-
+    $this->envioconf = FALSE;
 
     // RECOGEMOS LOS DATOS DEL FORMULARIO
-
 
     $field_apellido1= strip_tags($form_state->getValue('apellido1'));
     $field_apellido2= strip_tags($form_state->getValue('apellido2'));
     $field_nombre= strip_tags($form_state->getValue('nombre'));
-    $fechaActual = date('d-m-Y');
+    $fechaActual = date('d/m/Y\TH:i:s');
     $fechaCodificada = date('Ymd');
 
     if(!empty($field_apellido2)){
@@ -236,38 +240,49 @@ class ConsentimientoAutorizado extends FormBase {
     }
 
     $field_email = $form_state->getValue('email');
-    // texto consentimiento informado traido de la configuració
-    //$field_text_consent = $form_state->getValue('texto_inf');
 
+  
 
-    // CREAMOS UN NUEVO CONSENTIMIENTO INFORMADO
+    
+        // CREAMOS UN NUEVO CONSENTIMIENTO INFORMADO
     $node = Node::create([
       'type' => 'bz_consentimiento',
       'title' => $title,
       'field_nombre' => $field_nombre,
       'field_apellido1' => $field_apellido1,
       'field_apellido2' => $field_apellido2,
-      'field_email' => $field_email,
-      'field_fecha_de_inscripcion' => $fechaActual,
+      'field_email_con' => $field_email,
+      'field_fecha_de_consentimiento' => $fechaActual,
       'field_firmado'=>0,
       'uid' => 0,
-    ]);
+    ]);    	
+    	
+    $node->save();
 
-    //$node->save();
+    
 
     // ENVIAMOS EL CORREO DE CONFIRMACIÓN.
 
-    // Código del consentimiento único para firmar
+    // FORMACIÓN DEL TOKEN PARA LA SEGURIDAD DE LA FIRMA
     $clavetoken = \Drupal::config('bz_suscripcion.settings')->get('codigo_seguridad');
-
-
     $nid_user = $node->id();
     $this->token = hash("sha256",$nid_user.$clavetoken);
+    // FIN DEL TOKEN
 
     $this->ficha['correo'] = $field_email;
-    $form_state->setRebuild();
-
+    
+	//$form_state->setRebuild();
+	
+	//******campos para parametrizar el correo***//
+	
+  	$this->todoCampos['title_nodo'] = $title;
+  	$this->todoCampos['nom_completo'] = $this->ficha['nombreCompleto'];
+  	$this->todoCampos['date_nicio'] = $fechaActual;
+  	$this->todoCampos['token'] = $this->token;
+	
+	
     //********************PDF******************//
+    
     $search = [
       '[%start_date%]',
       '[%nombreCompleto%]',
@@ -278,53 +293,61 @@ class ConsentimientoAutorizado extends FormBase {
 
     ];
 
-	$textoConsent = str_replace($search, $replace, $this->textoHtmlConsent);
-	$nombreConsInf = strtolower($field_apellido1."_".$field_apellido2."_".$field_nombre);
-	$nombrePDF =$fechaCodificada."_".$nombreConsInf.'.pdf';
-	$file = 'sites/default/files/pdf/';
-	$html = $textoConsent;
-
-	//$mpdf = new \Mpdf\Mpdf();
-
-	//$mpdf->WriteHTML($html);
-
-	//$mpdf->Output($file  . $nombrePDF, 'F');
+  	$textoConsent = str_replace($search, $replace, $this->textoHtmlConsent);
+  	$nombreConsInf = strtolower($field_apellido1."_".$field_apellido2."_".$field_nombre);
+  	$nombrePDF =$fechaCodificada."_".$nombreConsInf.'.pdf';
+  	$file = 'sites/default/files/pdf/';
+  	$html = $textoConsent;
 
 
+  	// CON EL COMPOSER COMPOSER
+  	//$mpdf = new \Mpdf\Mpdf(['tempDir' => 'sites/default/files/tmp']); 
+  	
+  	//$mpdf = new \Mpdf\Mpdf();
+  	//$mpdf->WriteHTML($html);
+  	//$mpdf->Output('file.pdf', 'D');
+  	//$mpdf->Output($file  . $nombrePDF, 'F');
+  	//$params['attachments'] = $file.$nombrePDF;
 
-	//*************
-	// ENVIAMOS EL CORREO AL USUARIO INDICANDO QUE NOS HA ENVIADO UN MENSAJE
 
-        $module = 'bz_suscripcion';
-        $key = 'email_consentimiento';
-        $to = $field_email;
-        //var_dump($field_email);
-        $params['Bcc'] = 'boulderzonealcala@gmail.com';
-        $params['Bcc'] .= ', robledomorante@gmail.com';
-        $params['titulo'] = 'Consentimiento Informado de Boulder Zone Retiro';
-        $params['mensaje'] = $textoConsent;
-        //var_dump($textoConsent);
-        //die();
+		
+    //*************ENVIO DE CORREO************************//
 
-         //$params = $this->campoPasos;
-        $from = \Drupal::config('system.site')->get('mail');
+    
+    $module = 'bz_suscripcion';
+    $key = 'email_consentimiento';
+    $to = $field_email;
+    $params['subject'] = 'CONSENTIMIENTO INFORMADO ';
+    $params['titulo']='Envio desde el formulario de contato de Boulder Zone Alcala';
+		$params['message'] =  $textoConsent;
+
+		//$params['attachments'] = $file.$nombrePDF;
+		
+    $params = $this->todoCampos + $params;
+    
+
+    $from = \Drupal::config('system.site')->get('mail');
         //drupal_set_message('esto es de: '.$to);
         //$from = 'drmfraterni@gmail.com';
-        $language_code ='es';
+    $language_code ='es';
 
+    //$form_state->setRebuild();
 
+ 
+    $result = \Drupal::service('plugin.manager.mail')->mail($module, $key, $to, $language_code, $params, $from, TRUE);
+		if ($result['result'] == TRUE) {
+    //drupal_set_message($this->t($params['mensaje']));
+		  drupal_set_message($this->t('Hemos enviado correctamente el mensaje.'));
+		}
+		else {
+			drupal_set_message($this->t('There was a problem sending your message and it was not sent.'), 'error');
+		}
 
+	$nc = $this->ficha['nombreCompleto'];	
+	$tk = $this->token;
+	//$form_state->setRedirect('bz_suscripcion.enviocorreo', ['rdf_entity' => $entity->id()]);
+	$form_state->setRedirect('bz_suscripcion.enviocorreo', ['nombre' => $nc, 'token' => $tk]);
 
-        $result = \Drupal::service('plugin.manager.mail')->mail($module, $key, $to, $language_code, $params, $from, TRUE);
-			if ($result['result'] == TRUE) {
-        //drupal_set_message($this->t($params['mensaje']));
-				drupal_set_message($this->t('Hemos enviado correctamente el mensaje.'));
-			}
-			else {
-				drupal_set_message($this->t('There was a problem sending your message and it was not sent.'), 'error');
-			}
-
-	
   }
 
 

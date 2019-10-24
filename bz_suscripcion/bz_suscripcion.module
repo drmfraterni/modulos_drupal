@@ -6,6 +6,7 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Routing\RouteMatchInterface;
 
 
 
@@ -18,57 +19,6 @@ function bz_suscripcion_form_alter(&$form, \Drupal\Core\Form\FormStateInterface 
   }
 }
 
-/*
-function bz_suscripcion_mail($key, &$message, $params) {
- $options = array(
-   'langcode' => $message['langcode'],
- );
- switch ($key) {
-   case 'email_consentimiento':
-     $header = array(
-           'MIME-Version' => '1.0',
-           'Content-Type' => 'text/html; charset=UTF-8; format=flowed; delsp=yes',
-           'Content-Transfer-Encoding' => '8Bit',
-           'X-Mailer' => 'Drupal'
-     );
-     if(count($params['Cc'])>0) $header['Cc'] = implode(',', $params['Cc']);
-     $message['headers'] = $header;
-     $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
-     $message['from'] = \Drupal::config('system.site')->get('mail');
-     $message['subject'] = $params['subject'];
-     $message['body'][] = $params['message'];
-     break;
- }
-}
-*/
-
-function bz_suscripcion_mail($key, &$message, $params) {
-  // Get language code, which provides current user language.
-  /*$options = array(
-    'langcode' => $message['langcode'],
-  );*/
-
-  $message['body'] = [];
-  $message['subject'] = [];
-  $message['headers'] = array(
-    'content-type' => 'text/html',
-    'charset' => 'UTF-8',
-    'format' => 'flowed',
-    'delsp' => 'yes',
-    'from' => \Drupal::config('system.site')->get('mail')
-  );
-
-  // configuring the message
-  switch ($key) {
-    case 'email_consentimiento':
-    $message['headers']['Bcc'] = $params['Bcc']; // BCC  robledomorante
-    $message['subject'] = $params['titulo'];
-    //$message['body'][] = '<html><body>' . $params['mensaje'] . '</body></html>';
-    $message['body'][] = SafeMarkup::checkPlain($params['mensaje']);
-    break;
-  }
-}
-
 function bz_suscripcion_theme($existing, $type, $theme, $path) {
   return [
     'busqueda' => [
@@ -78,16 +28,78 @@ function bz_suscripcion_theme($existing, $type, $theme, $path) {
         'formulario'   => NULL
         ],
       ],
+      'envioCorreo' => [
+        'variables' => [
+            'contenido' => NULL
+
+        ],
+      ],      
       'control' => [
       'variables' => [
         'titulo' => 'Título por defecto',
         'descripcion' => 'descripción por defecto',
-        'formulario'   => NULL
+        'datos'   => NULL
+        ],
+      ],
+      'firmado' => [
+      'variables' => [
+        'titulo' => NULL,
+        'descripcion' => NULL,
+        'token'   => NULL,
+        'datos' => NULL
         ],
       ],
   ];
 }
 
+//email_consentimiento
 
+function bz_suscripcion_mail($key, &$message, $params) {
+  $options = array(
+     'langcode' => $message['langcode'],
+  );
+
+  switch ($key) {
+   case 'email_consentimiento':
+     $header = array(
+           'MIME-Version' => '1.0',
+           'Content-Type' => 'text/html; charset=UTF-8; format=flowed; delsp=yes',
+           'Content-Transfer-Encoding' => '8Bit',
+           'X-Mailer' => 'Drupal'
+     );
+
+     if(!empty($params['bcc'])) {
+       $message['headers']['Bcc'] = $params['bcc'];
+       unset($params['bcc']);
+     }
+
+     if(!empty($params['cc'])) {
+       $message['headers']['Cc'] = $params['cc'];
+       unset($params['cc']);
+     }
+
+     $message['headers'] = $header;
+     $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed; delsp=yes';
+     $message['from'] = \Drupal::config('system.site')->get('mail');
+     $message['subject'] = $params['subject'].' de '.$params['nom_completo'];
+
+
+
+    $theme = [
+      '#theme' => 'envioCorreo',
+      '#contenido' => $params
+    ];
+
+
+    //var_dump($theme);
+    //die();
+    $message['body'][] = \Drupal::service('renderer')->render($theme);
+
+    break;
+
+ }
+
+
+ }
 
 ?>
