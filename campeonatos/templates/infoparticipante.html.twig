@@ -1,0 +1,20 @@
+<div class="row">
+
+    <div class="col-md-6">
+    {# LA CANTIDAD DE ELEMENTOS QUE NOS VIENE DEL ARRAY ENLACES #}
+    {% set enl = enlaces.link|length %}
+    {# dump(enlaces) #}
+    <ul id="infparticipante" class="participante info-participante">
+
+      {% for i in range(0, enl - 1) %}
+        
+
+        <li class="enl-participane"><a href="{{ enlaces.link[ loop.index - 1 ]|e }}">
+        {{ enlaces.tit[ loop.index - 1 ]|e }}</a></li>
+
+      {% endfor %}
+    </ul>
+
+    </div>
+
+</div>

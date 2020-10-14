@@ -1,0 +1,5 @@
+name: campeonatos
+description: Módulo para la gestión de la Liga interna y los Campeonatos
+package: BOULDER ZONE
+type: module
+core: 8.x

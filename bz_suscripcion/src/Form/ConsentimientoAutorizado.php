@@ -159,7 +159,7 @@ class ConsentimientoAutorizado extends FormBase {
     $validarCorreo = FALSE;
     $nid = \Drupal::entityQuery('node')
     ->condition('type', 'bz_consentimiento')
-    ->condition('field_email_con', $form_state->getValue('email'), '=')
+    ->condition('field_con_email', $form_state->getValue('email'), '=')
     ->execute();
     
     
@@ -251,7 +251,7 @@ class ConsentimientoAutorizado extends FormBase {
       'field_nombre' => $field_nombre,
       'field_apellido1' => $field_apellido1,
       'field_apellido2' => $field_apellido2,
-      'field_email_con' => $field_email,
+      'field_con_email' => $field_email,
       'field_fecha_de_consentimiento' => $fechaActual,
       'field_firmado'=>0,
       'uid' => 0,

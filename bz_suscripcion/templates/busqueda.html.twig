@@ -1,7 +1,28 @@
-<div class="row">
+{% if formulario.final %}
 
-    {{ formulario }}
-
-
-
+<div class="reserva">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1>{{ titulo }}</h1>
+      </div>
+      <div class="col-12">
+        <p>{{ formulario.final }}
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
+
+{% else %}
+
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ titulo }}</h1>
+    </div>
+    <div class="col-12">
+      {{ formulario }}
+    </div>
+  </div>
+
+{% endif %}

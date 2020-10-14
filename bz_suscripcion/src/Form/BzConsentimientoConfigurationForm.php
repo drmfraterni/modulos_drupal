@@ -117,8 +117,8 @@ class BzConsentimientoConfigurationForm extends ConfigFormBase {
       '#format' => $config->get('personalizacion.format'),
 
     ];
-		
-	$form['consentimiento'] = [
+
+	   $form['consentimiento'] = [
       '#type' => 'text_format',
       '#title' => $this->t('Consentimiento Informado'),
       '#description' => $this->t('Introduce el texto del CONSENTIMIENTO INFORMADO'),
@@ -129,17 +129,35 @@ class BzConsentimientoConfigurationForm extends ConfigFormBase {
 
     $form['mensaje_contestacion'] = [
       '#type' => 'text_format',
-      '#title' => $this->t('Mensaje de contestación'),
-      '#description' => $this->t('Una vez enviado relleno el formulario se envía este mensaje de contestación'),
+      '#title' => $this->t('Mensaje de contestación CONSENTIMIENTO'),
+      '#description' => $this->t('Una vez relleno el formulario de consentimiento se envia el siguiente correo'),
       '#default_value' => $config->get('mensaje_contestacion.value'),
       '#format' => $config->get('mensaje_contestacion.format'),
 
     ];
-	
+
+    $form['proteccion_datos'] = [
+        '#type' => 'text_format',
+        '#title' => $this->t('Protección de datos'),
+        '#description' => $this->t('Introduce el texto para la PROTECCIÓN DE DATOS'),
+        '#default_value' => $config->get('proteccion_datos.value'),
+        '#format' => $config->get('proteccion_datos.format'),
+
+      ];
+
+    $form['mensaje_reserva'] = [
+      '#type' => 'text_format',
+      '#title' => $this->t('Mensaje de contestación RESERVA DE PLAZA'),
+      '#description' => $this->t('Una vez relleno el formulario de consentimiento se envia el siguiente correo'),
+      '#default_value' => $config->get('mensaje_contestacion.value'),
+      '#format' => $config->get('mensaje_contestacion.format'),
+
+    ];
+
 	$codseg = $config->get('codigo_seguridad');
-	
+
 	//var_dump($codseg);
-	
+
 	isset($codseg) ? '_boulderz' : $config->get('codigo_seguridad');
 
     // En el caso que hubiera un código de seguridad este seria el por defecto
@@ -163,7 +181,7 @@ class BzConsentimientoConfigurationForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $values = $form_state->getValues();
-    var_dump($values['codigo_seguridad']);
+    //var_dump($values['codigo_seguridad']);
 
     $this->config('bz_suscripcion.settings')->set('personalizacion.value', $values['personalizacion']['value'])->save();
     $this->config('bz_suscripcion.settings')->set('personalizacion.format', $values['personalizacion']['format'])->save();
@@ -171,6 +189,10 @@ class BzConsentimientoConfigurationForm extends ConfigFormBase {
     $this->config('bz_suscripcion.settings')->set('consentimiento.format', $values['consentimiento']['format'])->save();
     $this->config('bz_suscripcion.settings')->set('mensaje_contestacion.value', $values['mensaje_contestacion']['value'])->save();
     $this->config('bz_suscripcion.settings')->set('mensaje_contestacion.format', $values['mensaje_contestacion']['format'])->save();
+    $this->config('bz_suscripcion.settings')->set('proteccion_datos.value', $values['proteccion_datos']['value'])->save();
+    $this->config('bz_suscripcion.settings')->set('proteccion_datos.format', $values['proteccion_datos']['format'])->save();
+    $this->config('bz_suscripcion.settings')->set('mensaje_reserva.value', $values['mensaje_reserva']['value'])->save();
+    $this->config('bz_suscripcion.settings')->set('mensaje_reserva.format', $values['mensaje_reserva']['format'])->save();
     $this->config('bz_suscripcion.settings')->set('codigo_seguridad', $values['codigo_seguridad'])->save();
     //$this->config('bz_suscripcion.settings')->save();
 

@@ -1,0 +1,30 @@
+campeonatos.altas:
+  path: '/alta/participante'
+  defaults:
+    _title: 'Alta Participante'
+    _controller: '\Drupal\campeonatos\Controller\CampeonatosController::alta_participante'
+  requirements:
+    _access: 'TRUE'
+campeonatos.campeonato:
+  path: '/campeonato/{clave}'
+  defaults:
+    _title: 'Alta Participante'
+    _controller: '\Drupal\campeonatos\Controller\CampeonatosController::puntos_campeonato'
+  requirements:
+    _access: 'TRUE'
+
+campeonatos.infoparticipante:
+  path: '/info-participante/{clave}/{token}'
+  defaults:
+    _title: 'Información del paticipante'
+    _controller: '\Drupal\campeonatos\Controller\CampeonatosController::info_participante'
+  requirements:
+    _access: 'TRUE'
+
+campeonatos.buscar:
+  path: '/buscar-participante'
+  defaults:
+    _title: 'Buscar Participante'
+    _controller: '\Drupal\campeonatos\Controller\CampeonatosController::buscar_participante'
+  requirements:
+    _access: 'TRUE'

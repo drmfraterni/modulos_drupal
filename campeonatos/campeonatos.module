@@ -1,0 +1,67 @@
+<?php
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Cache\Cache;
+use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\Request;
+
+//dpm($form_id);
+
+function  campeonatos_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  //dpm($form_id);
+  if ($form_id=='node_bz_plantilla_bloques_competicion_edit_form'){
+    //dpm($form_id);
+    //ksm($form);
+
+	$total = 0;
+
+    for ($i = 1; $i <= 30; $i++) {
+      $bloques = 'field_ficha_bloque_'.$i;
+      $nB[$i] = $form[$bloques]['widget']['0']['value']['#default_value'];
+      $total = $total + $nB[$i];
+    }
+
+    $form['field_ficha_total']['widget']['0']['value']['#value'] = $total;
+
+    //$form['actions']['submit']['#submit'][]  = 'campeonatos_form_submit';
+
+
+  }
+
+}
+
+function campeonatos_theme($existing, $type, $theme, $path) {
+  return [
+    'participante' => [
+      'variables' => [
+        'titulo' => 'Título por defecto',
+        'descripcion' => 'descripción por defecto',
+        'formulario'   => NULL,
+        'titulo' => NULL
+        ],
+      ],
+      'infoparticipante' => [
+        'variables' => [
+          'titulo' => 'Título por defecto',
+          'descripcion' => 'descripción por defecto',
+          'enlaces' => NULL,
+          'rutas' => NULL
+          ],
+        ],
+      'control' => [
+      'variables' => [
+        'titulo' => 'Título por defecto',
+        'descripcion' => 'descripción por defecto',
+        'formulario'   => NULL
+        ],
+      ],
+  ];
+}
+
+/*function campeonatos_form_submit(array &$form, FormStateInterface $form_state){
+    //die("I'm not getting run, why :(");
+    drupal_set_message("Why won't this message show?");
+
+}*/
+
+?>

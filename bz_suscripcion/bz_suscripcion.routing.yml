@@ -29,3 +29,10 @@ bz_suscripcion.enviocorreo:
     _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::enviocorreo'
   requirements:
     _access: 'TRUE'
+bz_suscripcion.altareserva:
+  path: '/reserva'
+  defaults:
+    _title: 'Reserva de Plaza'
+    _controller: '\Drupal\bz_suscripcion\Controller\BzsuscripcionController::reserva'
+  requirements:
+    _permission: 'access content'

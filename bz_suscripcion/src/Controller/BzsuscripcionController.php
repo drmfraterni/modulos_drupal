@@ -38,12 +38,28 @@ class BzsuscripcionController extends ControllerBase {
 
   }
 
+  public function reserva() {
+    // Utilizamos el formulario
+            $form = $this->formBuilder()->getForm('Drupal\bz_suscripcion\Form\ReservaPlaza');
+            //ksm($form);
+            //drupal_set_message(t('Formulario: '.$nombre), 'status', FALSE);
+
+    // Le pasamos el formulario y demás a la vista (tema configurado en el module)
+            return [
+                '#theme' => 'busqueda',
+                '#titulo' => $this->t('Reserva de Plaza'),
+                '#descripcion' => 'Reserva de plaza a partir de la Fase 2',
+                '#formulario' => $form
+            ];
+
+  }
+
   public function enviocorreo($nombre, $token){
 
 
     // CARGAR EL USUARIO A TRAVÉS DEL TOKEN
     $cd_usu = self::resolverToken($token);
-    var_dump($codUsu);
+    //var_dump($codUsu);
 
 
     //OBTENER LOS DATOS DEL USUARIO
@@ -53,15 +69,17 @@ class BzsuscripcionController extends ControllerBase {
     $apellido2 = $node->get('field_apellido2')->value;
 
     $datos = array();
-    $datos['nombre'] = $nombre." ".$apellido1." ".$apellido2;
-    var_dump($datos['nombre']);
+    $datos['nombre'] = $nombre." ".$apellido1.' '.$apellido2;
+    //var_dump($datos['nombre']);
     //die();
     // OBTENER EL TEXTO PARA ENVIAR
     $textHtml = $config = \Drupal::config('bz_suscripcion.settings');
     $textoConsent = $textHtml->get('mensaje_contestacion.value');
 
-    $correo = $node->get('field_email_con')->value;
-    $nombreCompleto = $this->ficha['nombreCompleto'];
+    //$correo = $node->get('field_email_con')->value;
+    $correo = $node->get('field_con_email')->value;
+    //$nombreCompleto = $this->ficha['nombreCompleto'];
+    $nombreCompleto = $datos['nombre'];
       //var_dump($correo);
     $search = [
       '[%nombreCompleto%]',
@@ -91,7 +109,10 @@ class BzsuscripcionController extends ControllerBase {
 
     // Una vez que tenemos firmado el consentimiento
     // Control del usuario a través del token
+
     $codUsu = self::resolverToken($token);
+
+
 
     // Una vez sabemos el código del usuario recuperamos los datos
     $node = node_load($codUsu);
@@ -112,7 +133,7 @@ class BzsuscripcionController extends ControllerBase {
               '#theme' => 'firmado',
               '#titulo' => $this->t('Consentimiento Informado Firmado'),
               '#descripcion' => 'Formulario para rellenar de forma automática el consentimiento autorizado',
-              '#token' => $cd_usu,
+              '#token' => $codUsu,
               '#datos' => $datos
           ];
 
@@ -127,7 +148,7 @@ class BzsuscripcionController extends ControllerBase {
   $nids = \Drupal::entityQuery('node')
   ->condition('type', 'bz_consentimiento')
   ->execute();
-    
+
   foreach ($nids as $nid) {
     $cd_nids = hash("sha256",$nid.$clavetoken);
       if ($token == $cd_nids){

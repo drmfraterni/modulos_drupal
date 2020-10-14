@@ -1,10 +1,12 @@
-<div class="row">
-	<h2>{{ titulo}}</h2>
-</div>
-<div class="row">
-
-    <p>Estimado/a Usuario: {{ datos.nombre }} <br/>Ha firmado el consentiento informado y la protección de datos</p>
-    <p>Agradecemos su interés por nuestro centro.</p>
-    <p>El número es: {{token}}</p>
-
+<div id="consentimiento-firmado" class="consen-firmado">
+	<div class="container">
+		<div class="row">
+			<h3>{{ titulo }}</h3>
+			<p>Estimado/a Usuario: {{ datos.nombre }} <br/>Ha firmado el consentiento informado y la protección de datos</p>
+			<p>Tiene una copia del consentimiento informado y de la protección de datos en su correo electrónico por lo que puede
+			consultarlo cuando quiera.</p>
+	    <p>Agradecemos su interés por nuestro centro.</p>
+	    <p>El número es: {{token}}</p>
+		</div>
+	</div>
 </div>
